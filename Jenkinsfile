@@ -3,17 +3,21 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                script {
                     echo 'Building Docker image...'
-                    sh 'docker build . -t express-image'
+                    sh 'sudo docker build . -t express-image'
+                }
             }
         }
         stage('Run Container') {
             steps {
+                script {
                     echo 'Stopping and removing any previous container...'
-                    sh 'docker rm -f express-container'
+                    sh 'sudo docker rm -f express-container'
 
                     echo 'Starting a new container...'
-                    sh 'docker run -d --name express-container -p 3000:3000 express-image'
+                    sh 'sudo docker run -d --name express-container -p 3000:3000 express-image'
+                }
             }
         }
         stage('Test') {
@@ -30,9 +34,11 @@ pipeline {
     }
     post {
         always {
+            script {
                 echo 'Cleaning up...'
-                sh 'docker stop express-container'
-                sh 'docker rm express-container'
+                sh 'sudo docker stop express-container'
+                sh 'sudo docker rm express-container'
+            }
         }
     }
 }
