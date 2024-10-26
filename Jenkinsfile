@@ -23,7 +23,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing...'
-                // Insert test commands here, e.g., HTTP request to container
             }
         }
         stage('Deploy') {
