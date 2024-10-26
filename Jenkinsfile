@@ -32,14 +32,6 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            script {
-                echo 'Cleaning up...'
-                sh 'sudo docker stop express-container'
-                sh 'sudo docker rm express-container'
-            }
-        }
-    }
+
 }
 
