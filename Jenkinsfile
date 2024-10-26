@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
-                // Add deployment steps here
+                // Add deployment steps here hateahet:
             }
         }
     }
@@ -42,3 +42,4 @@ pipeline {
         }
     }
 }
+
