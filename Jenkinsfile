@@ -1,23 +1,45 @@
 pipeline {
-        agent any
-        stages {
-                stage('Build') {
-                        steps {
-                                echo 'Building...'
-                                sh 'sudo docker build . -t express-image'
-                                sh 'sudo docker create --name express-container -p 3000:3000 express-image'
-                                sh 'sudo docker start express-container'
-                        }
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    echo 'Building Docker image...'
+                    sh 'docker build . -t express-image'
                 }
-                stage('Test') {
-                        steps {
-                                echo 'Testing...'
-                        }
-                }
-                stage('Deploy') {
-                        steps {
-                                echo 'Deploying...'
-                        }
-                }
+            }
         }
+        stage('Run Container') {
+            steps {
+                script {
+                    echo 'Stopping and removing any previous container...'
+                    sh 'docker rm -f express-container || true'
+
+                    echo 'Starting a new container...'
+                    sh 'docker run -d --name express-container -p 3000:3000 express-image'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                // Insert test commands here, e.g., HTTP request to container
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+                // Add deployment steps here
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                echo 'Cleaning up...'
+                sh 'docker stop express-container || true'
+                sh 'docker rm express-container || true'
+            }
+        }
+    }
 }
