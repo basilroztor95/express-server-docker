@@ -4,7 +4,7 @@ const app = express();
 const PORT = 3000;
 
 app.get('/', (req, res) => {
-  res.send('jenkins is working via ssh');
+  res.send('jenkins check');
 });
 
 app.listen(PORT, () => {
